@@ -50,8 +50,8 @@ def query(request):
                     "columns": ACCOUNT_DEF,
                     "rows": [
                         [
-                            account.starting_balance.balance,
-                            account.current_balance.balance,
+                            account.starting_balance.balance if account.starting_balance else None,
+                            account.current_balance.balance if account.current_balance else None,
                             account.total_topup,
                             account.average_APR,
                             account.returns,
@@ -75,8 +75,8 @@ def query(request):
                     "columns": ACCOUNT_DEF,
                     "rows": [
                         [[
-                            account.starting_balance.balance,
-                            account.current_balance.balance,
+                            account.starting_balance.balance if account.starting_balance else None,
+                            account.current_balance.balance if account.current_balance else None,
                             account.total_topup,
                             account.average_APR,
                             account.returns,
