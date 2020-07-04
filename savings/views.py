@@ -12,7 +12,7 @@ ACCOUNT_DEF = [
     {"text": "Total Topup",         "type": "number"},
     {"text": "Average APR",         "type": "number"},
     {"text": "Returns",             "type": "number"},
-    {"text": "Balance OK",          "type": "number"},
+    {"text": "Balance OK",          "type": "bool"},
     {"text": "Name",                "type": "string"},
     {"text": "Bank Name",           "type": "string"},
     {"text": "Account Name",        "type": "string"},
@@ -92,6 +92,12 @@ def query(request):
                             account.instant_withdrawal
                         ] for account in accounts],
                     "type": "table"
+                })
+        if target["target"] == "balances":
+            for account in models.Account.objects.all():
+                response.append({
+                    "target": str(account),
+                    "datapoints": [[balance.balance, int(balance.timestamp.timestamp()*1000)] for balance in account.balance_set]
                 })
 
     return JsonResponse(response, safe=False)
