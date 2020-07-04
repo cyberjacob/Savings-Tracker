@@ -41,6 +41,8 @@ class Account(models.Model):
     @property
     def average_APR(self) -> Decimal:
         """Average yearly interest %"""
+        days = (self.current_balance.timestamp - self.starting_balance.timestamp).days
+        ((((self.current_balance.balance - self.total_topup) / self.starting_balance.balance) - 1) / days) * 365
         return self.balance_set.aggregate(models.Avg('APR'))['APR__avg']
 
     @property
