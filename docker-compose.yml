@@ -36,13 +36,13 @@ services:
       DEBUG: 1
       SECRET_KEY: ul0!s#-cgqt(!gb+e)kmyh%zgdrkk706z3zujoj=en%)2h(-k=
       DJANGO_ALLOWED_HOSTS: "savings.home.jacobmansfield.co.uk"
-      #localhost 127.0.0.1 [::1]
       SQL_ENGINE: django.db.backends.postgresql
       SQL_DATABASE: savingstracker
       SQL_USER: savingstracker
       SQL_PASSWORD: savingstracker
       SQL_HOST: db
       SQL_PORT: 5432
+      CURRENCY_FORMAT: "£{:.2f}"
     expose:
       - 8000
     labels:
