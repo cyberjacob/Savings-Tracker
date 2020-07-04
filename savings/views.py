@@ -74,21 +74,23 @@ def query(request):
                 response.append({
                     "columns": ACCOUNT_DEF,
                     "rows": [
-                        [account.starting_balance.balance if account.starting_balance else None for account in accounts],
-                        [account.current_balance.balance if account.current_balance else None for account in accounts],
-                        [account.total_topup for account in accounts],
-                        [account.average_APR for account in accounts],
-                        [account.returns for account in accounts],
-                        [account.balance_OK for account in accounts],
-                        [account.__str__() for account in accounts],
-                        [account.bank_name for account in accounts],
-                        [account.account_name for account in accounts],
-                        [account.account_number for account in accounts],
-                        [account.sort_code for account in accounts],
-                        [account.predicted_interest for account in accounts],
-                        [account.interest_min for account in accounts],
-                        [account.interest_max for account in accounts],
-                        [account.instant_withdrawal for account in accounts],
+                        [[
+                            account.starting_balance.balance if account.starting_balance else None,
+                            account.current_balance.balance if account.current_balance else None,
+                            account.total_topup,
+                            account.average_APR,
+                            account.returns,
+                            account.balance_OK,
+                            account.__str__(),
+                            account.bank_name,
+                            account.account_name,
+                            account.account_number,
+                            account.sort_code,
+                            account.predicted_interest,
+                            account.interest_min,
+                            account.interest_max,
+                            account.instant_withdrawal
+                        ] for account in accounts],
                     ],
                     "type": "table"
                 })
