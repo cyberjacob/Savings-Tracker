@@ -75,8 +75,8 @@ def query(request):
                     "columns": ACCOUNT_DEF,
                     "rows": [
                         [[
-                            account.starting_balance,
-                            account.current_balance,
+                            account.starting_balance.balance,
+                            account.current_balance.balance,
                             account.total_topup,
                             account.average_APR,
                             account.returns,
