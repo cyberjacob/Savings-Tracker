@@ -99,7 +99,7 @@ def query(request):
                     "target": str(account),
                     "datapoints": [
                         [balance.balance, int(datetime.datetime.combine(balance.timestamp, datetime.datetime.min.time()).timestamp()*1000)]
-                        for balance in account.order_by('timestamp').balance_set.all()]
+                        for balance in account.balance_set.order_by('timestamp').all()]
                 })
         if target["target"] == "APRs":
             for account in models.Account.objects.all():
