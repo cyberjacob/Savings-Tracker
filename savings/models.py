@@ -74,7 +74,10 @@ class Account(models.Model):
     total_topup_localized.short_description = 'Total Topup'
 
     def average_APR_localized(self):
-        return "{:.2%}".format(self.average_APR)
+        if self.average_APR:
+            return "{:.2%}".format(self.average_APR)
+        else:
+            return "-"
     average_APR_localized.short_description = 'Average APR'
 
     def returns_localized(self):
