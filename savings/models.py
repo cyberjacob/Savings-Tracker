@@ -44,9 +44,12 @@ class Account(models.Model):
         return self.balance_set.aggregate(models.Avg('APR'))['APR__avg']
 
     @property
-    def returns(self) -> Decimal:
+    def returns(self) -> Optional[Decimal]:
         """Total of all interest payments"""
-        return self.current_balance.interest_increase - self.total_topup
+        if self.current_balance:
+            return self.current_balance.interest_increase - self.total_topup
+        else:
+            return None
 
     @property
     def balance_OK(self) -> bool:
