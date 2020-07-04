@@ -2,24 +2,54 @@ version: '3'
 
 services:
   db:
+    networks:
+      - base_base
+    restart: unless-stopped
+    logging:
+      driver: journald
     image: postgres
     environment:
-      - POSTGRES_DB=savingstracker
-      - POSTGRES_USER=savingstracker
-      - POSTGRES_PASSWORD=savingstracker
+      PUID: 1001
+      PGID: 1001
+      UMASK: 2
+      TZ: Europe/London
+      POSTGRES_DB: savingstracker
+      POSTGRES_USER: savingstracker
+      POSTGRES_PASSWORD: savingstracker
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - /opt/savings/postgres_data:/var/lib/postgresql/data/
   web:
+    networks:
+      - base_base
+    restart: unless-stopped
+    logging:
+      driver: journald
+
     build: .
     depends_on:
       - db
     environment:
+      PUID: 1001
+      PGID: 1001
+      UMASK: 2
+      TZ: Europe/London
       DEBUG: 1
       SECRET_KEY: ul0!s#-cgqt(!gb+e)kmyh%zgdrkk706z3zujoj=en%)2h(-k=
-      DJANGO_ALLOWED_HOSTS: localhost 127.0.0.1 [::1]
+      DJANGO_ALLOWED_HOSTS: "savings.home.jacobmansfield.co.uk"
+      #localhost 127.0.0.1 [::1]
       SQL_ENGINE: django.db.backends.postgresql
       SQL_DATABASE: savingstracker
       SQL_USER: savingstracker
       SQL_PASSWORD: savingstracker
       SQL_HOST: db
       SQL_PORT: 5432
+    expose:
+      - 8000
+    labels:
+      - "traefik.http.routers.savings.rule=Host(`savings.home.jacobmansfield.co.uk`)"
+      - "traefik.http.routers.savings.tls=true"
+      - "traefik.http.routers.savings.tls.certresolver=letsencrypt"
+
+networks:
+  base_base:
+    external: true
