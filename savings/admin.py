@@ -13,6 +13,13 @@ class AccountAdmin(admin.ModelAdmin):
         'returns_localized',
         'balance_OK'
     ]
+    list_display = [
+        'bank_name',
+        'account_name',
+        'current_balance_localized',
+        'average_APR_localized',
+        'balance_OK'
+    ]
 
 
 class BalanceAdmin(admin.ModelAdmin):
