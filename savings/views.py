@@ -15,14 +15,14 @@ def test():
 @csrf_exempt
 def search(request):
     """Used by Grafana to find metrics"""
-    return JsonResponse(["accounts", "balances"])
+    return JsonResponse(["accounts", "balances"], safe=False)
 
 
 @csrf_exempt
 def query(request):
-    return JsonResponse("")
+    return JsonResponse("", safe=False)
 
 
 @csrf_exempt
 def annotations(request):
-    return JsonResponse([])
+    return JsonResponse([], safe=False)
