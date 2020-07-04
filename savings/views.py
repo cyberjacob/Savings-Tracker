@@ -1,3 +1,4 @@
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
@@ -8,20 +9,20 @@ from . import models
 @csrf_exempt
 def test():
     """Used by Grafana to test basic connectivity"""
-    return "OK"
+    return JsonResponse("OK")
 
 
 @csrf_exempt
 def search(request):
     """Used by Grafana to find metrics"""
-    return '["accounts", "balances"]'
+    return JsonResponse(["accounts", "balances"])
 
 
 @csrf_exempt
 def query(request):
-    return ""
+    return JsonResponse("")
 
 
 @csrf_exempt
 def annotations(request):
-    return "[]"
+    return JsonResponse([])
