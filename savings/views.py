@@ -29,7 +29,7 @@ ACCOUNT_DEF = [
 @csrf_exempt
 def test(request):
     """Used by Grafana to test basic connectivity"""
-    return JsonResponse("OK")
+    return JsonResponse("OK", safe=False)
 
 
 @csrf_exempt
