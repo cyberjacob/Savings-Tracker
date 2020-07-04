@@ -59,15 +59,24 @@ class Account(models.Model):
         return f'Account: {self.bank_name} {self.account_name}'
 
     def starting_balance_localized(self):
-        return settings.CURRENCY_FORMAT.format(self.starting_balance.balance)
+        if self.starting_balance:
+            return settings.CURRENCY_FORMAT.format(self.starting_balance.balance)
+        else:
+            return "-"
     starting_balance_localized.short_description = 'Starting Balance'
 
     def current_balance_localized(self):
-        return settings.CURRENCY_FORMAT.format(self.current_balance.balance)
+        if self.current_balance:
+            return settings.CURRENCY_FORMAT.format(self.current_balance.balance)
+        else:
+            return "-"
     current_balance_localized.short_description = 'Current Balance'
 
     def total_topup_localized(self):
-        return settings.CURRENCY_FORMAT.format(self.total_topup)
+        if self.total_topup:
+            return settings.CURRENCY_FORMAT.format(self.total_topup)
+        else:
+            return "-"
     total_topup_localized.short_description = 'Total Topup'
 
     def average_APR_localized(self):
@@ -78,7 +87,10 @@ class Account(models.Model):
     average_APR_localized.short_description = 'Average APR'
 
     def returns_localized(self):
-        return settings.CURRENCY_FORMAT.format(self.returns)
+        if self.returns:
+            return settings.CURRENCY_FORMAT.format(self.returns)
+        else:
+            return "-"
     returns_localized.short_description = 'Returns'
 
 
