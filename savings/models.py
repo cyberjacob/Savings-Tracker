@@ -132,5 +132,8 @@ class Balance(ComputedFieldsModel):
         return f"Balance: {self.account} on {self.timestamp} - {settings.CURRENCY_FORMAT}".format(self.balance)
 
     def APR_localized(self):
-        return "{:.2%}".format(self.APR)
+        if self.APR:
+            return "{:.2%}".format(self.APR)
+        else:
+            return "-"
     APR_localized.short_description = 'APR'
