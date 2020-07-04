@@ -98,16 +98,20 @@ def query(request):
                 response.append({
                     "target": str(account),
                     "datapoints": sorted([
-                        [float(balance.balance), int(datetime.datetime.combine(balance.timestamp, datetime.datetime.min.time()).timestamp()*1000)]
-                        for balance in account.balance_set.all()], key=lambda tup: tup[1])
+                        [
+                            float(balance.balance),
+                            int(datetime.datetime.combine(balance.timestamp, datetime.datetime.min.time()).timestamp()*1000)
+                        ] for balance in account.balance_set.all()], key=lambda tup: tup[1])
                 })
         if target["target"] == "APRs":
             for account in models.Account.objects.all():
                 response.append({
                     "target": str(account),
                     "datapoints": sorted([
-                        [float(balance.APR), int(datetime.datetime.combine(balance.timestamp, datetime.datetime.min.time()).timestamp()*1000)]
-                        for balance in account.balance_set.all()], key=lambda tup: tup[1])
+                        [
+                            float(balance.APR) if balance.APR else None,
+                            int(datetime.datetime.combine(balance.timestamp, datetime.datetime.min.time()).timestamp()*1000)
+                        ] for balance in account.balance_set.all()], key=lambda tup: tup[1])
                 })
 
     return JsonResponse(response, safe=False)
