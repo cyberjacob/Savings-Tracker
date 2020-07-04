@@ -97,7 +97,7 @@ def query(request):
             for account in models.Account.objects.all():
                 response.append({
                     "target": str(account),
-                    "datapoints": [[balance.balance, int(balance.timestamp.timestamp()*1000)] for balance in account.balance_set]
+                    "datapoints": [[balance.balance, int(balance.timestamp.timestamp()*1000)] for balance in account.balance_set.all()]
                 })
 
     return JsonResponse(response, safe=False)
