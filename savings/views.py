@@ -21,7 +21,7 @@ ACCOUNT_DEF = [
     {"text": "Predicted Interest",  "type": "number"},
     {"text": "Interest Min",        "type": "number"},
     {"text": "Interest Max",        "type": "number"},
-    {"text": "Instant Withdrawal",  "type": "number"},
+    {"text": "Instant Withdrawal",  "type": "bool"},
 ]
 
 
