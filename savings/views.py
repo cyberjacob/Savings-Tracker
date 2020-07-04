@@ -46,9 +46,9 @@ def query(request):
         if target["target"] == "accounts":
             if target["data"]["pk"] is not None:
                 account = models.Account.objects.get(pk=target["data"]["pk"])
-                response += {
-                    "columns":ACCOUNT_DEF,
-                    "rows":[
+                response.append({
+                    "columns": ACCOUNT_DEF,
+                    "rows": [
                         [
                             account.starting_balance,
                             account.current_balance,
@@ -68,12 +68,12 @@ def query(request):
                         ],
                     ],
                     "type": "table"
-                }
+                })
             else:
                 accounts = models.Account.objects.all()
-                response += {
-                    "columns":ACCOUNT_DEF,
-                    "rows":[
+                response.append({
+                    "columns": ACCOUNT_DEF,
+                    "rows": [
                         [[
                             account.starting_balance,
                             account.current_balance,
@@ -93,7 +93,7 @@ def query(request):
                         ] for account in accounts],
                     ],
                     "type": "table"
-                }
+                })
 
     return JsonResponse(response, safe=False)
 
