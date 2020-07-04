@@ -42,7 +42,7 @@ class Account(models.Model):
     def average_APR(self) -> Decimal:
         """Average yearly interest %"""
         apr_set = []
-        for balance in self.balance_set.all():
+        for balance in self.balance_set.filter(APR__isnull=False):
             apr_set += [balance.APR] * balance.days_since_last_check
         return sum(apr_set)/len(apr_set)
 
