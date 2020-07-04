@@ -12,16 +12,16 @@ def test():
 
 
 @csrf_exempt
-def search():
+def search(request):
     """Used by Grafana to find metrics"""
     return '["accounts", "balances"]'
 
 
 @csrf_exempt
-def query():
+def query(request):
     return ""
 
 
 @csrf_exempt
-def annotations():
+def annotations(request):
     return "[]"
