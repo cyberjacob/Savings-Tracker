@@ -52,12 +52,12 @@ class Account(models.Model):
             return None
 
     @property
-    def balance_OK(self) -> bool:
+    def balance_OK(self) -> Optional[bool]:
         """Current balance allows interest payments"""
         if (self.interest_max is None) and (self.interest_min is None):
             return True
         if self.current_balance is None:
-            return "-"
+            return None
         return ((self.interest_min is None) or (self.current_balance.balance >= self.interest_min)) and \
                ((self.interest_max is None) or (self.current_balance.balance <= self.interest_max))
 
