@@ -18,10 +18,7 @@ class Account(models.Model):
     sort_code = models.CharField(max_length=10, blank=True)
     predicted_interest = models.DecimalField(decimal_places=4, max_digits=6)
 
-    has_interest_min = models.BooleanField()
     interest_min = models.DecimalField(decimal_places=4, max_digits=10, blank=True, null=True)
-
-    has_interest_max = models.BooleanField()
     interest_max = models.DecimalField(decimal_places=4, max_digits=10, blank=True, null=True)
 
     instant_withdrawal = models.BooleanField()
@@ -54,9 +51,9 @@ class Account(models.Model):
     @property
     def balance_OK(self) -> bool:
         """Current balance allows interest payments"""
-        return (not self.has_interest_min and not self.has_interest_max) or (
-                (self.has_interest_min and (self.current_balance.balance > self.interest_min)) and
-                (self.has_interest_max and (self.current_balance.balance < self.interest_max)))
+        return (self.interest_min is None and self.interest_max is None) or (
+                (self.interest_min is not None and (self.current_balance.balance > self.interest_min)) and
+                (self.interest_max is not None and (self.current_balance.balance < self.interest_max)))
 
     def __str__(self):
         return f'Account: {self.bank_name} {self.account_name}'
