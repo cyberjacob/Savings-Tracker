@@ -44,7 +44,7 @@ def query(request):
     data = json.loads(request.body)
     for target in data["targets"]:
         if target["target"] == "accounts":
-            if target["data"]["pk"] is not None:
+            if "pk" in target["data"]:
                 account = models.Account.objects.get(pk=target["data"]["pk"])
                 response.append({
                     "columns": ACCOUNT_DEF,
