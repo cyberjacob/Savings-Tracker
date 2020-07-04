@@ -59,7 +59,7 @@ class Account(models.Model):
             return "-"
 
     def __str__(self):
-        return f'Account: {self.bank_name} {self.account_name}'
+        return f'{self.bank_name} - {self.account_name}'
 
     def starting_balance_localized(self):
         if self.starting_balance:
@@ -129,7 +129,7 @@ class Balance(ComputedFieldsModel):
             return None
 
     def __str__(self):
-        return f"Balance: {self.account} on {self.timestamp} - {settings.CURRENCY_FORMAT}".format(self.balance)
+        return f"{self.account} Balance on {self.timestamp} - {settings.CURRENCY_FORMAT}".format(self.balance)
 
     def APR_localized(self):
         if self.APR:
