@@ -41,8 +41,7 @@ class Account(models.Model):
     @property
     def average_APR(self) -> Decimal:
         """Average yearly interest %"""
-        days = (self.current_balance.timestamp - self.starting_balance.timestamp).days
-        return ((((self.current_balance.balance - self.total_topup) / self.starting_balance.balance) - 1) / days) * 365
+        return self.balance_set.aggregate(models.Avg(models.F('APR') * models.F('days_since_last_check')))['APR__avg']
 
     @property
     def returns(self) -> Optional[Decimal]:
@@ -114,10 +113,13 @@ class Balance(ComputedFieldsModel):
         """Most recent previous balance record for this account"""
         return Balance.objects.filter(account=self.account, timestamp__lt=self.timestamp).order_by('timestamp').last()
 
-    @property
-    def days_since_last_check(self) -> datetime.timedelta:
+    @computed(models.IntegerField(null=True), [['self', ['timestamp']]])
+    def days_since_last_check(self) -> Optional[int]:
         """Number of days since the previous balance record"""
-        return self.timestamp - self.previous_check.timestamp
+        if self.previous_check:
+            return (self.timestamp - self.previous_check.timestamp).days
+        else:
+            return None
 
     @property
     def interest_increase(self) -> Decimal:
@@ -129,7 +131,7 @@ class Balance(ComputedFieldsModel):
         """Current yearly interest for the account, calculated since the last balance record"""
         previous = self.previous_check
         if previous is not None:
-            return (((self.interest_increase / previous.balance) - 1) / self.days_since_last_check.days) * 365
+            return (((self.interest_increase / previous.balance) - 1) / self.days_since_last_check) * 365
         else:
             return None
 
