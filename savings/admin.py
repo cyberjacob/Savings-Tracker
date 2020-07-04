@@ -3,6 +3,13 @@ from . import models
 from computedfields.models import update_dependent
 
 
+def update_APRs(modeladmin, request, queryset):
+    update_dependent(models.Balance.objects.filter(account__in=queryset))
+
+
+update_APRs.short_description = "Update Calculated APR"
+
+
 # Register your models here.
 class AccountAdmin(admin.ModelAdmin):
     """Admin registration for the Account model"""
@@ -21,11 +28,6 @@ class AccountAdmin(admin.ModelAdmin):
         'average_APR_localized',
         'balance_OK'
     ]
-
-    @staticmethod
-    def update_APRs(modeladmin, request, queryset):
-        update_dependent(models.Balance.objects.filter(account__in=queryset))
-    update_APRs.short_description = "Update Calculated APR"
 
     actions = [update_APRs]
 
