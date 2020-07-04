@@ -1,4 +1,5 @@
 import json
+import datetime
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
@@ -97,7 +98,9 @@ def query(request):
             for account in models.Account.objects.all():
                 response.append({
                     "target": str(account),
-                    "datapoints": [[balance.balance, int(balance.timestamp.timestamp()*1000)] for balance in account.balance_set.all()]
+                    "datapoints": [
+                        [balance.balance, int(datetime.datetime.combine(balance.timestamp, datetime.datetime.min.time()).timestamp()*1000)]
+                        for balance in account.balance_set.all()]
                 })
 
     return JsonResponse(response, safe=False)
