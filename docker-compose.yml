@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=savingstracker
+      - POSTGRES_USER=savingstracker
+      - POSTGRES_PASSWORD=savingstracker
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  web:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DEBUG: 1
+      SECRET_KEY: ul0!s#-cgqt(!gb+e)kmyh%zgdrkk706z3zujoj=en%)2h(-k=
+      DJANGO_ALLOWED_HOSTS: localhost 127.0.0.1 [::1]
+      SQL_ENGINE: django.db.backends.postgresql
+      SQL_DATABASE: savingstracker
+      SQL_USER: savingstracker
+      SQL_PASSWORD: savingstracker
+      SQL_HOST: db
+      SQL_PORT: 5432
