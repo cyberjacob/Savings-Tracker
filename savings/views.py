@@ -1,8 +1,7 @@
-import json
 import datetime
+import json
 
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from . import models
@@ -36,7 +35,7 @@ def test():
 @csrf_exempt
 def search(request):
     """Used by Grafana to find metrics"""
-    return JsonResponse(["accounts", "balances"], safe=False)
+    return JsonResponse(["accounts", "balances", "APRs"], safe=False)
 
 
 @csrf_exempt
@@ -100,6 +99,14 @@ def query(request):
                     "target": str(account),
                     "datapoints": [
                         [balance.balance, int(datetime.datetime.combine(balance.timestamp, datetime.datetime.min.time()).timestamp()*1000)]
+                        for balance in account.balance_set.all()]
+                })
+        if target["target"] == "APRs":
+            for account in models.Account.objects.all():
+                response.append({
+                    "target": str(account),
+                    "datapoints": [
+                        [balance.APR, int(datetime.datetime.combine(balance.timestamp, datetime.datetime.min.time()).timestamp()*1000)]
                         for balance in account.balance_set.all()]
                 })
 
