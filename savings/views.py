@@ -27,7 +27,7 @@ ACCOUNT_DEF = [
 
 # Create your views here.
 @csrf_exempt
-def test():
+def test(request):
     """Used by Grafana to test basic connectivity"""
     return JsonResponse("OK")
 
