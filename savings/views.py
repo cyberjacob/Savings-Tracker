@@ -73,7 +73,7 @@ def query(request):
                 accounts = models.Account.objects.all()
                 response.append({
                     "columns": ACCOUNT_DEF,
-                    "rows": [
+                    "rows":
                         [[
                             account.starting_balance.balance if account.starting_balance else None,
                             account.current_balance.balance if account.current_balance else None,
@@ -91,7 +91,6 @@ def query(request):
                             account.interest_max,
                             account.instant_withdrawal
                         ] for account in accounts],
-                    ],
                     "type": "table"
                 })
 
