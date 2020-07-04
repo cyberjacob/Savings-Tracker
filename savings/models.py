@@ -41,7 +41,10 @@ class Account(models.Model):
     @property
     def average_APR(self) -> Decimal:
         """Average yearly interest %"""
-        return self.balance_set.aggregate(APR__avg=models.Avg(models.F('APR') * models.F('days_since_last_check'), output_field=models.DecimalField()))['APR__avg']
+        apr_set = []
+        for balance in self.balance_set.all():
+            apr_set += [balance.APR] * balance.days_since_last_check
+        return sum(apr_set)/len(apr_set)
 
     @property
     def returns(self) -> Optional[Decimal]:
