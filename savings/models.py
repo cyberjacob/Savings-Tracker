@@ -4,9 +4,8 @@ from decimal import Decimal
 from typing import Optional
 
 from computedfields.models import ComputedFieldsModel, computed
-from django.db import models
 from django.conf import settings
-import datetime
+from django.db import models
 
 
 # Create your models here.
@@ -35,7 +34,7 @@ class Account(models.Model):
 
     @property
     def total_topup(self) -> Decimal:
-        """Total amount tranfered into this account from external funds"""
+        """Total amount transferred into this account from external funds"""
         return self.balance_set.aggregate(models.Sum('topup'))['topup__sum']
 
     @property
@@ -63,7 +62,6 @@ class Account(models.Model):
             return None
         return ((self.interest_min is None) or (self.current_balance.balance >= self.interest_min)) and \
                ((self.interest_max is None) or (self.current_balance.balance <= self.interest_max))
-
 
     def __str__(self):
         return f'{self.bank_name} - {self.account_name}'
