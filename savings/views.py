@@ -93,7 +93,7 @@ def query(request):
                         ] for account in accounts],
                     "type": "table"
                 })
-        if target["target"] == "balances":
+        elif target["target"] == "balances":
             for account in models.Account.objects.all():
                 response.append({
                     "target": str(account),
@@ -103,7 +103,7 @@ def query(request):
                             int(datetime.datetime.combine(balance.timestamp, datetime.datetime.min.time()).timestamp()*1000)
                         ] for balance in account.balance_set.all()], key=lambda tup: tup[1])
                 })
-        if target["target"] == "APRs":
+        elif target["target"] == "APRs":
             for account in models.Account.objects.all():
                 response.append({
                     "target": str(account),
@@ -113,7 +113,7 @@ def query(request):
                             int(datetime.datetime.combine(balance.timestamp, datetime.datetime.min.time()).timestamp()*1000)
                         ] for balance in account.balance_set.all()], key=lambda tup: tup[1])
                 })
-        if target["returns"] == "APRs":
+        elif target["target"] == "returns":
             for account in models.Account.objects.all():
                 response.append({
                     "target": str(account),
