@@ -130,6 +130,14 @@ class Balance(ComputedFieldsModel):
         """Current balance of the account, excluding the most recent topup"""
         return self.balance - self.topup
 
+    @property
+    def returns(self) -> Optional[Decimal]:
+        """Amount generated from interest, etc."""
+        if self.previous_check:
+            return self.interest_increase - self.previous_check.balance
+        else:
+            return None
+
     @computed(models.DecimalField(decimal_places=4, max_digits=6, null=True), depends=[['self', ['balance', 'topup', 'days_since_last_check']]])
     def APR(self) -> Optional[Decimal]:
         """Current yearly interest for the account, calculated since the last balance record"""

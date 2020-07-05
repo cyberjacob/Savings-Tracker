@@ -35,7 +35,7 @@ def test(request):
 @csrf_exempt
 def search(request):
     """Used by Grafana to find metrics"""
-    return JsonResponse(["accounts", "balances", "APRs"], safe=False)
+    return JsonResponse(["accounts", "balances", "APRs", "returns"], safe=False)
 
 
 @csrf_exempt
@@ -110,6 +110,16 @@ def query(request):
                     "datapoints": sorted([
                         [
                             float(balance.APR) if balance.APR else None,
+                            int(datetime.datetime.combine(balance.timestamp, datetime.datetime.min.time()).timestamp()*1000)
+                        ] for balance in account.balance_set.all()], key=lambda tup: tup[1])
+                })
+        if target["returns"] == "APRs":
+            for account in models.Account.objects.all():
+                response.append({
+                    "target": str(account),
+                    "datapoints": sorted([
+                        [
+                            float(balance.returns) if balance.returns else None,
                             int(datetime.datetime.combine(balance.timestamp, datetime.datetime.min.time()).timestamp()*1000)
                         ] for balance in account.balance_set.all()], key=lambda tup: tup[1])
                 })
