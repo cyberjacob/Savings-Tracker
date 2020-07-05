@@ -38,12 +38,15 @@ class Account(models.Model):
         return self.balance_set.aggregate(models.Sum('topup'))['topup__sum']
 
     @property
-    def average_APR(self) -> Decimal:
+    def average_APR(self) -> Optional[float]:
         """Average yearly interest %"""
         apr_set = []
         for balance in self.balance_set.filter(APR__isnull=False):
             apr_set += [balance.APR] * balance.days_since_last_check
-        return sum(apr_set)/len(apr_set)
+        if len(apr_set) > 0:
+            return sum(apr_set)/len(apr_set)
+        else:
+            return None
 
     @property
     def returns(self) -> Optional[Decimal]:
