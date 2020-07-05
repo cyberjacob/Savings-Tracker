@@ -52,7 +52,7 @@ class Account(models.Model):
     def returns(self) -> Optional[Decimal]:
         """Total of all interest payments"""
         if self.current_balance:
-            return self.current_balance.interest_increase - self.total_topup
+            return self.current_balance.balance - self.total_topup
         else:
             return None
 
