@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.db.models import F
 from . import models
 from computedfields.models import update_dependent
 
