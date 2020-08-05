@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'savings',
     'computedfields',
+    'adminsortable2',
 ]
 
 MIDDLEWARE = [
