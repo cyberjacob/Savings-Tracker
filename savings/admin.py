@@ -31,11 +31,6 @@ class AccountAdmin(admin.ModelAdmin):
 
     actions = [update_APRs]
 
-    def get_queryset(self, request):
-        qs = super(AccountAdmin, self).get_queryset(request)
-        qs = qs.order_by(F('average_APR_localized'))
-        return qs
-
 
 class BalanceAdmin(admin.ModelAdmin):
     """Admin registration for the Balance model"""
